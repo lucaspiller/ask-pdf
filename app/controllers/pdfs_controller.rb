@@ -3,6 +3,7 @@ class PdfsController < ApplicationController
     pdf = Pdf.new(create_pdf_params)
 
     if pdf.save
+      GenerateSectionsJob.perform_later(pdf)
       redirect_to pdf_path(pdf)
     else
       render :new

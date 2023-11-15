@@ -59,3 +59,9 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "pdf-reader", "~> 2.11"
+gem "tokenizers", "~> 0.4.1"
+gem "openai", "~> 0.3.0"
+
+gem "ruby-openai", "~> 6.2"
