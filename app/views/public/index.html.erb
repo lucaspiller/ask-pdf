@@ -17,9 +17,14 @@
 <section class="py-20">
   <div class="container mx-auto text-center">
     <h2 class="mb-8 text-2xl font-bold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-4xl">Step 1: Upload a PDF</h2>
-    <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Select file</label>
-    <input class="block w-full md:max-w-sm mx-auto text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" aria-describedby="file_input_help" id="file_input" type="file">
-    <p class="mt-1 text-sm text-gray-500" id="file_input_help">PDF only.</p>
+    <%= form_for @pdf, data: { turbo: false } do |f| %>
+      <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Select file</label>
+      <%= f.file_field :original_file, class: "block w-full md:max-w-sm mx-auto text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" %>
+      <p class="mt-1 text-sm text-gray-500" id="file_input_help">PDF only.</p>
+      <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800">
+        Upload
+      </button>
+    <% end %>
   </div>
 </section>
 
