@@ -30,4 +30,9 @@ class Pdf < ApplicationRecord
   def status_ready?
     self.status == STATUS_READY
   end
+
+  def sections
+    value = read_attribute :sections
+    JSON.parse! value if value.present?
+  end
 end

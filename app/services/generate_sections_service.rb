@@ -51,9 +51,9 @@ class GenerateSectionsService
     end
 
     # Send each section to OpenAI to get the embeddings
-    client = OpenAI::Client.new
+    openai = OpenAI::Client.new
     sections_with_embeddings = sections.map do |section|
-      embeddings = get_embedding(client, section[:content], section[:token_count])
+      embeddings = get_embedding(openai, section[:content], section[:token_count])
 
       section.merge({
         embeddings: embeddings,
@@ -63,6 +63,8 @@ class GenerateSectionsService
     @pdf.sections = sections_with_embeddings.to_json
     @pdf.save!
   end
+  
+  protected
 
   def get_embedding(client, text, token_count)
     Rails.logger.info "OpenAI embeddings request: #{token_count} tokens"

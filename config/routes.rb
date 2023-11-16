@@ -8,5 +8,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "public#index"
 
-  resources :pdfs, only: [:show, :create]
+  resources :pdfs, only: [:show, :create] do
+    member do
+      post :query
+    end
+  end
 end
