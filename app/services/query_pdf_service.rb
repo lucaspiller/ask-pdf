@@ -1,10 +1,10 @@
 class QueryPdfService
   # TODO DRY this and get_embedding is repeated in generate sections service
   EMBEDDING_MODEL = "text-embedding-ada-002"
-  MAX_SECTIONS = 5
+  MAX_SECTIONS = 10
 
   CHAT_MODEL = "gpt-3.5-turbo"
-  CHAT_MAX_TOKENS = 128
+  CHAT_MAX_TOKENS = 1024
 
   def initialize(pdf, question)
     @pdf = pdf
@@ -31,7 +31,7 @@ class QueryPdfService
     end.sort_by { |section| section[:similarity] }.reverse
 
     prompt = [
-      "You are an analyst. Review the document below and try to answer the best you can the answer given. If the document does not have a specific answer to this question, please analyse it and answer as best you can.",
+      "You are an analyst. Review the document below and try to answer the best you can the answer given. If the document does not have a specific answer to this question, please analyse it and answer as best you can. The answer should be between 3 and 5 sentences in length.",
       "",
       "QUESTION: #{@question}",
       "",
@@ -68,7 +68,7 @@ class QueryPdfService
         model: CHAT_MODEL,
         max_tokens: CHAT_MAX_TOKENS,
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.7,
+        temperature: 0.4,
       }
     )
     response.dig("choices", 0, "message", "content")
@@ -76,9 +76,9 @@ class QueryPdfService
 
   # Source https://gist.github.com/DDimitris/694d9da40f8e91326008f8b270afad2a
   def calculate_similarity(vector_a, vector_b)
-    return nil unless vector_a.is_a? Array
-    return nil unless vector_b.is_a? Array
-    return nil if vector_a.size != vector_b.size
+    return 0 unless vector_a.is_a? Array
+    return 0 unless vector_b.is_a? Array
+    return 0 if vector_a.size != vector_b.size
     dot_product = 0
     vector_a.zip(vector_b).each do |v1i, v2i|
       dot_product += v1i * v2i
