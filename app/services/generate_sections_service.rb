@@ -58,6 +58,11 @@ class GenerateSectionsService
       section.merge({
         embeddings: embeddings,
       })
+    rescue Exception => e
+      Rails.logger.warn "Error generating embeddings for section: #{e.message}"
+      section.merge({
+        embeddings: [],
+      })
     end
 
     @pdf.sections = sections_with_embeddings.to_json
