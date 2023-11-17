@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PdfsController < ApplicationController
   def create
     pdf = Pdf.new(create_pdf_params)
@@ -11,13 +13,13 @@ class PdfsController < ApplicationController
   end
 
   def show
-    @pdf = Pdf.find_by_id!(params[:id])
+    @pdf = Pdf.find_by!(id: params[:id])
 
     render 'public/index'
   end
 
   def query
-    @pdf = Pdf.find_by_id!(params[:id])
+    @pdf = Pdf.find_by!(id: params[:id])
 
     @question = params[:question]
     @answer = QueryPdfService.new(@pdf, @question).run!

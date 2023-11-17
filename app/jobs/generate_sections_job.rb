@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 class GenerateSectionsJob < ApplicationJob
   queue_as :default
 
   def perform(pdf)
-    unless pdf.status_pending?
-      Rails.logger.warn "GenerateSectionsJob called for Pdf##{pdf.id} with status #{pdf.status} - expected status pending"
-    end
+    Rails.logger.warn "GenerateSectionsJob called for Pdf##{pdf.id} with status #{pdf.status} - expected status pending" unless pdf.status_pending?
 
     pdf.status_processing!
     GenerateSectionsService.new(pdf).run!

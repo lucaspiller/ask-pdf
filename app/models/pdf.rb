@@ -10,25 +10,25 @@ class Pdf < ApplicationRecord
   validates :original_file, content_type: ['application/pdf'], presence: true
 
   def status_pending?
-    self.status == STATUS_PENDING
+    status == STATUS_PENDING
   end
 
   def status_processing!
     self.status = STATUS_PROCESSING
-    self.save!
+    save!
   end
 
   def status_processing?
-    self.status == STATUS_PROCESSING
+    status == STATUS_PROCESSING
   end
 
   def status_ready!
     self.status = STATUS_READY
-    self.save!
+    save!
   end
 
   def status_ready?
-    self.status == STATUS_READY
+    status == STATUS_READY
   end
 
   def sections
