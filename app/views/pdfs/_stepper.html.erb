@@ -1,0 +1,26 @@
+<ol class="items-center justify-center w-full space-y-4 sm:flex sm:space-x-20 sm:space-y-0 rtl:space-x-reverse mb-8">
+  <li class="flex items-center <%= stage >= 1 ? 'text-blue-600' : 'text-gray-500' %> space-x-2.5 rtl:space-x-reverse">
+    <span class="flex items-center justify-center w-8 h-8 border border-2 <%= stage >= 1 ? 'border-blue-600' : 'border-gray-500' %> rounded-full shrink-0 font-semibold">
+      1
+    </span>
+    <span>
+      <h3 class="font-bold leading-tight">Upload a PDF</h3>
+    </span>
+  </li>
+  <li class="flex items-center <%= stage >= 2 ? 'text-blue-600' : 'text-gray-500' %> space-x-2.5 rtl:space-x-reverse">
+    <span class="flex items-center justify-center w-8 h-8 border border-2 <%= stage >= 2 ? 'border-blue-600' : 'border-gray-500' %> rounded-full shrink-0 font-semibold">
+      2
+    </span>
+    <span>
+      <h3 class="font-bold leading-tight">Processing</h3>
+    </span>
+  </li>
+  <li class="flex items-center <%= stage >= 3 ? 'text-blue-600' : 'text-gray-500' %> space-x-2.5 rtl:space-x-reverse">
+    <span class="flex items-center justify-center w-8 h-8 border border-2 <%= stage >= 3 ? 'border-blue-600' : 'border-gray-500' %> rounded-full shrink-0 font-semibold">
+      3
+    </span>
+    <span>
+      <h3 class="font-bold leading-tight">Chat</h3>
+    </span>
+  </li>
+</ol>

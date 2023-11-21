@@ -14,8 +14,6 @@ class PdfsController < ApplicationController
 
   def show
     @pdf = Pdf.find_by!(id: params[:id])
-
-    render 'public/index'
   end
 
   def query
@@ -23,8 +21,6 @@ class PdfsController < ApplicationController
 
     @question = params[:question]
     @answer = QueryPdfService.new(@pdf, @question).run!
-
-    render 'public/index'
   end
 
   protected
