@@ -13,7 +13,7 @@ class QueryPdfService
     @question = question
   end
 
-  def run!
+  def run!(&stream_proc)
     # Strip excess whitespace and add a question mark if the question doesn't have one as the last character
     @question = "#{@question.split.join(' ')}?" if @question.last != '?'
 
@@ -47,7 +47,7 @@ class QueryPdfService
 
     prompt = prompt.join("\n")
 
-    query_chat(openai, prompt)
+    query_chat(openai, prompt, stream_proc)
   end
 
   protected
@@ -63,17 +63,24 @@ class QueryPdfService
     response.dig('data', 0, 'embedding')
   end
 
-  def query_chat(client, prompt)
+  def query_chat(client, prompt, stream_proc)
+    raise "No query_chat proc" unless stream_proc
     Rails.logger.info "OpenAI chat request. #{prompt.size} characters"
-    response = client.chat(
+    content = ""
+    client.chat(
       parameters: {
         model: CHAT_MODEL,
         max_tokens: CHAT_MAX_TOKENS,
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.4
+        temperature: 0.4,
+        stream: proc do |chunk|
+          new_content = chunk.dig("choices", 0, "delta", "content")
+          content = content + new_content if new_content
+          stream_proc.call(new_content, content) if stream_proc
+        end
       }
     )
-    response.dig('choices', 0, 'message', 'content')
+    content
   end
 
   # Source https://gist.github.com/DDimitris/694d9da40f8e91326008f8b270afad2a

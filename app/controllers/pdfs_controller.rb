@@ -20,7 +20,14 @@ class PdfsController < ApplicationController
     @pdf = Pdf.find_by!(id: params[:id])
 
     @question = params[:question]
-    @answer = QueryPdfService.new(@pdf, @question).run!
+    @answer = QueryPdfService.new(@pdf, @question).run! do |chunk, answer|
+      Turbo::StreamsChannel.broadcast_append_to(
+        @pdf,
+        target: 'answer',
+        partial: 'pdfs/answer_inner',
+        locals: { answer: answer }
+      )
+    end
   end
 
   protected
