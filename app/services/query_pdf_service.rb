@@ -5,7 +5,7 @@ class QueryPdfService
   EMBEDDING_MODEL = 'text-embedding-ada-002'
   MAX_SECTIONS = 10
 
-  CHAT_MODEL = 'gpt-3.5-turbo'
+  CHAT_MODEL = 'gpt-3.5-turbo-1106'
   CHAT_MAX_TOKENS = 1024
 
   def initialize(pdf, question)
